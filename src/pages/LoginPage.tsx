@@ -1,39 +1,26 @@
-import React, {useState} from "react";
-
-import es from "../locales/es.json";
-import en from "../locales/en.json";
-const translations = { es, en } as const;
-export type Language = "es" | "en";
+import React, { useState } from "react";
+import { useAuth } from "../context/AuthContext";
+import { useLanguage } from "../context/LanguageContext";
+import { useNavigate } from "react-router-dom";
 
 export default function LoginPage() {
-    // TODO
-    //const {login} = useAuth();
-    const login = (username:string)=>{
-        console.log(`Autenticado comom ${username}`);
-    }
-
-    //const {t} = useLanguage();
-    /* --------------------------- */
-    // Eliminar
-    const language:Language = "es";
-    const t = (key:string):string => {
-        // @ts-ignore
-        return translations[language][key];
-    }
-    /* --------------------------- */
-
+    const { login } = useAuth();
+    const { t } = useLanguage();
+    const navigate = useNavigate();
 
     const [name, setName] = useState("");
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (!name.trim()) return;
+
         login(name.trim());
 
+        navigate("/");
     };
 
     return (
-        <section className="max-w-md bg-white dark:bg-slate-800 rounded-xl shadow-md p-6 space-y-4">
+        <section className="max-w-md mx-auto bg-white dark:bg-slate-800 rounded-xl shadow-md p-6 space-y-4">
             <div>
                 <h2 className="text-xl font-semibold">{t("loginTitle")}</h2>
                 <p className="text-sm text-slate-600 dark:text-slate-300">

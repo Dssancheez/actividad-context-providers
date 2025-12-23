@@ -1,30 +1,22 @@
-import es from "../locales/es.json";
-import en from "../locales/en.json";
-const translations = { es, en } as const;
-export default function HomePage() {
-    // TODO
-    //const {user, logout} = useAuth();
-    /* --------------------------- */
-    const logout = ()=>{
-        console.log(`Eliminando autenticación`);
-    }
-    const user = {name:"John Doe"};
+import { useAuth } from "../context/AuthContext";
+import { useLanguage } from "../context/LanguageContext";
+import { useNavigate } from "react-router-dom";
 
-    // Eliminar
-    const language = "en";
-    const t = (key:string):string => {
-        // @ts-ignore
-        return translations[language][key];
-    }
-    /* --------------------------- */
+export default function HomePage() {
+    const { user, logout } = useAuth();
+    const { t } = useLanguage();
+    const navigate = useNavigate();
+
     const name = user?.name ?? "Usuario";
 
     const handleLogout = () => {
         logout();
+        navigate("/login");
     };
 
     return (
         <div className="space-y-6">
+            {/* Sección de Bienvenida */}
             <section className="space-y-2">
                 <h2 className="text-2xl font-semibold">
                     {t("homeWelcome")} <span className="font-bold">{name}</span>
